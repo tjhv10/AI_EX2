@@ -21,11 +21,11 @@ public enum Action {
         return deltaY;
     }
 
-    public ActionOutcome[] getOutcomes() {
+    public ActionOutcome[] getOutcomes(double p) {
         return new ActionOutcome[]{
-                new ActionOutcome(this, 0.8),
-                new ActionOutcome(this.getLeft(), 0.1),
-                new ActionOutcome(this.getRight(), 0.1)
+                new ActionOutcome(this, p),
+                new ActionOutcome(this.getLeft(), (1-p)/2),
+                new ActionOutcome(this.getRight(), (1-p)/2)
         };
     }
 

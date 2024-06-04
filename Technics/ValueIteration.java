@@ -11,13 +11,15 @@ public class ValueIteration {
     private double theta;
     private double[][] utilities;
     private Action[][] policy;
+    private double p;
 
-    public ValueIteration(Grid grid, double discountFactor, double theta) {
+    public ValueIteration(Grid grid, double discountFactor, double theta, double p) {
         this.grid = grid;
         this.discountFactor = discountFactor;
         this.theta = theta;
         this.utilities = new double[grid.getHeight()][grid.getWidth()];
         this.policy = new Action[grid.getHeight()][grid.getWidth()];
+        this.p = p;
     }
 
     public void run() {
@@ -43,7 +45,7 @@ public class ValueIteration {
                         Action bestAction = null;
                         for (Action action : Action.values()) {
                             double utility = 0;
-                            for (ActionOutcome outcome : action.getOutcomes()) {
+                            for (ActionOutcome outcome : action.getOutcomes(p)) {
                                 int newX = i + outcome.getDeltaX();
                                 int newY = j + outcome.getDeltaY();
                                 if (newX >= 0 && newX < height && newY >= 0 && newY < width) {
