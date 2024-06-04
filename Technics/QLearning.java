@@ -1,10 +1,10 @@
 package Technics;
 import java.util.Random;
 
-import Tools.Action;
-import Tools.Cell;
-import Tools.Grid;
-import Tools.CellType;
+import Stracture.Action;
+import Stracture.Cell;
+import Stracture.CellType;
+import Stracture.Grid;
 
 public class QLearning {
     private Grid grid;

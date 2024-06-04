@@ -1,4 +1,4 @@
-package Tools;
+package Stracture;
 public class ActionOutcome {
     private Action action;
     private double probability;

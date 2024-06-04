@@ -1,8 +1,9 @@
 package Technics;
 import java.util.Random;
-import Tools.Action;
-import Tools.Grid;
-import Tools.CellType;
+
+import Stracture.Action;
+import Stracture.CellType;
+import Stracture.Grid;
 
 
 public class SARSA {

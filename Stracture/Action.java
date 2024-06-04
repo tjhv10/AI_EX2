@@ -1,4 +1,4 @@
-package Tools;
+package Stracture;
 public enum Action {
     UP(-1, 0),
     DOWN(1, 0),

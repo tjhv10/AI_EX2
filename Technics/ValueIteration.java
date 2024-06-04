@@ -1,9 +1,9 @@
 package Technics;
-import Tools.Action;
-import Tools.ActionOutcome;
-import Tools.Cell;
-import Tools.CellType;
-import Tools.Grid;
+import Stracture.Action;
+import Stracture.ActionOutcome;
+import Stracture.Cell;
+import Stracture.CellType;
+import Stracture.Grid;
 
 public class ValueIteration {
     private Grid grid;

@@ -1,11 +1,11 @@
 import java.util.List;
 
+import Stracture.Grid;
+import Stracture.PrintingTools;
+import Stracture.Reward;
 import Technics.QLearning;
 import Technics.SARSA;
 import Technics.ValueIteration;
-import Tools.Grid;
-import Tools.Reward;
-import Tools.PrintingTools;
 
 import java.util.Arrays;
 import java.awt.Point;

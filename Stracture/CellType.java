@@ -1,4 +1,4 @@
-package Tools;
+package Stracture;
 public enum CellType {
     EMPTY,
     WALL,
