@@ -25,25 +25,29 @@ public class ValueIteration {
                 for (int j = 0; j < width; j++) {
                     Cell cell = grid.getCell(i, j);
                     double reward = cell.getReward();
-                    if (reward != 0) {
+                    if (cell.getCellType() == CellType.WALL) {
+                        newUtilities[i][j] = 0;
+                        policy[i][j] = null; // No action needed for wall cells
+                    } else if (reward != 0) {
                         newUtilities[i][j] = reward;
                         policy[i][j] = null; // No action needed for terminal states
                     } else {
                         double maxUtility = Double.NEGATIVE_INFINITY;
                         Action bestAction = null;
                         for (Action action : Action.values()) {
-                            System.out.println(action);
                             double utility = 0;
                             for (ActionOutcome outcome : action.getOutcomes()) {
-                                System.out.println(outcome);
                                 int newX = i + outcome.getDeltaX();
                                 int newY = j + outcome.getDeltaY();
                                 if (newX >= 0 && newX < height && newY >= 0 && newY < width) {
-                                    utility += outcome.getProbability() * utilities[newX][newY];
+                                    if (grid.getCell(newX, newY).getCellType() == CellType.WALL) {
+                                        utility += outcome.getProbability() * utilities[i][j];
+                                    } else {
+                                        utility += outcome.getProbability() * utilities[newX][newY];
+                                    }
                                 } else {
                                     utility += outcome.getProbability() * utilities[i][j];
                                 }
-                                
                             }
                             if (utility > maxUtility) {
                                 maxUtility = utility;

@@ -5,23 +5,23 @@ import java.awt.Point;
 
 public class Main {
     public static void main(String[] args) {
-        int width = 4;
         int height = 3;
-
+        int width = 4;
+    
         List<Reward> rewards = Arrays.asList(
-                new Reward(0, 3, 10),
-                new Reward(1, 3, -10)
+                new Reward(0, 3, 1),
+                new Reward(1, 3, -1)
         );
 
         List<Point> walls = Arrays.asList(
                 new Point(1, 1)
         );
 
-        double stepCost = -0.04;
+        double stepCost = -0.1;
 
         Grid grid = new Grid(width, height, rewards, stepCost, walls);
 
-        double discountFactor = 0.5;
+        double discountFactor = 1;
         double theta = 0.01;
         double alpha = 0.1;
         double epsilon = 0.1;
