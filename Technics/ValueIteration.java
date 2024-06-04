@@ -1,3 +1,4 @@
+package Technics;
 import Tools.Action;
 import Tools.ActionOutcome;
 import Tools.Cell;

@@ -1,3 +1,4 @@
+package Technics;
 import java.util.Random;
 import Tools.Action;
 import Tools.Grid;

@@ -1,5 +1,8 @@
 import java.util.List;
 
+import Technics.QLearning;
+import Technics.SARSA;
+import Technics.ValueIteration;
 import Tools.Grid;
 import Tools.Reward;
 import Tools.PrintingTools;
