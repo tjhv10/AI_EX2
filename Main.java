@@ -1,5 +1,6 @@
 import java.util.List;
-
+import java.util.Arrays;
+import java.awt.Point;
 import Stracture.Grid;
 import Stracture.PrintingTools;
 import Stracture.Reward;
@@ -7,14 +8,10 @@ import Technics.QLearning;
 import Technics.SARSA;
 import Technics.ValueIteration;
 
-import java.util.Arrays;
-import java.awt.Point;
-
-
 public class Main {
     public static void main(String[] args) {
-        int height = 3;
-        int width = 4;
+        int height = 10;
+        int width = 10;
     
         List<Reward> rewards = Arrays.asList(
                 new Reward(0, 3, 1),
@@ -34,16 +31,33 @@ public class Main {
         double alpha = 0.1;
         double epsilon = 0.1;
         int episodes = 1000;
-
+        
+        // Measure time for Value Iteration
+        long startTime = System.currentTimeMillis();
         ValueIteration vi = new ValueIteration(grid, discountFactor, theta);
         vi.run();
+        long endTime = System.currentTimeMillis();
+        long viTime = endTime - startTime;
+        System.out.println();
+        System.out.println("Value Iteration Time: " + viTime + " ms");
 
+        // Measure time for Q-Learning
+        startTime = System.currentTimeMillis();
         QLearning ql = new QLearning(grid, alpha, discountFactor, epsilon, episodes);
         ql.run();
+        endTime = System.currentTimeMillis();
+        long qlTime = endTime - startTime;
+        System.out.println("Q-Learning Time: " + qlTime + " ms");
 
+        // Measure time for SARSA
+        startTime = System.currentTimeMillis();
         SARSA sarsa = new SARSA(grid, alpha, discountFactor, epsilon, episodes);
         sarsa.run();
+        endTime = System.currentTimeMillis();
+        long sarsaTime = endTime - startTime;
+        System.out.println("SARSA Time: " + sarsaTime + " ms");
 
+        // Optionally print the policies for each algorithm
         System.out.println("Value Iteration Results:");
         PrintingTools.printPolicy(vi.getPolicy(), grid);
 
