@@ -28,6 +28,12 @@ public class QLearning {
                 Action action = epsilonGreedy(x, y, rand);
                 int newX = x + action.getDeltaX();
                 int newY = y + action.getDeltaY();
+                
+                if (newX < 0) newX = 0;
+                if (newX >= grid.getHeight()) newX = grid.getHeight() - 1;
+                if (newY < 0) newY = 0;
+                if (newY >= grid.getWidth()) newY = grid.getWidth() - 1;
+                
                 if (newX >= 0 && newX < grid.getHeight() && newY >= 0 && newY < grid.getWidth()) {
                     double reward = grid.getCell(newX, newY).getReward();
                     double maxQ = maxQ(newX, newY);
@@ -61,6 +67,24 @@ public class QLearning {
             maxQ = Math.max(maxQ, qValues[x][y][action.ordinal()]);
         }
         return maxQ;
+    }
+
+    public Action[][] getPolicy() {
+        Action[][] policy = new Action[grid.getHeight()][grid.getWidth()];
+        for (int i = 0; i < grid.getHeight(); i++) {
+            for (int j = 0; j < grid.getWidth(); j++) {
+                double maxQ = Double.NEGATIVE_INFINITY;
+                Action bestAction = null;
+                for (Action action : Action.values()) {
+                    if (qValues[i][j][action.ordinal()] > maxQ) {
+                        maxQ = qValues[i][j][action.ordinal()];
+                        bestAction = action;
+                    }
+                }
+                policy[i][j] = bestAction;
+            }
+        }
+        return policy;
     }
 
     public double[][][] getQValues() {

@@ -22,9 +22,9 @@ public enum Action {
 
     public ActionOutcome[] getOutcomes() {
         return new ActionOutcome[]{
-                new ActionOutcome(this, 1.0),
-                new ActionOutcome(this.getLeft(), 0.5),
-                new ActionOutcome(this.getRight(), 0.5)
+                new ActionOutcome(this, 0.8),
+                new ActionOutcome(this.getLeft(), 0.1),
+                new ActionOutcome(this.getRight(), 0.1)
         };
     }
 

@@ -1,19 +1,25 @@
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
+import java.awt.Point;
+
 
 public class Main {
     public static void main(String[] args) {
-        int width = 5;
-        int height = 5;
+        int width = 4;
+        int height = 3;
 
-        List<Reward> rewards = new ArrayList<>();
-        rewards.add(new Reward(0, 0, 10));
-        rewards.add(new Reward(4, 4, -10));
-        rewards.add(new Reward(2, 2, 0));
+        List<Reward> rewards = Arrays.asList(
+                new Reward(0, 3, 10),
+                new Reward(1, 3, -10)
+        );
+
+        List<Point> walls = Arrays.asList(
+                new Point(1, 1)
+        );
 
         double stepCost = -0.04;
 
-        Grid grid = new Grid(width, height, rewards, stepCost);
+        Grid grid = new Grid(width, height, rewards, stepCost, walls);
 
         double discountFactor = 0.5;
         double theta = 0.01;
@@ -31,34 +37,15 @@ public class Main {
         sarsa.run();
 
         System.out.println("Value Iteration Results:");
-        printUtilities(vi.getUtilities(), grid);
+        Tools.printPolicy(vi.getPolicy(), grid);
 
         System.out.println("Q-Learning Results:");
-        printQValues(ql.getQValues(), grid);
+        Tools.printPolicy(ql.getPolicy(), grid);
 
         System.out.println("SARSA Results:");
-        printQValues(sarsa.getQValues(), grid);
+        Tools.printPolicy(sarsa.getPolicy(), grid);
     }
 
-    private static void printUtilities(double[][] utilities, Grid grid) {
-        for (int i = 0; i < grid.getHeight(); i++) {
-            for (int j = 0; j < grid.getWidth(); j++) {
-                System.out.printf("%.2f ", utilities[i][j]);
-            }
-            System.out.println();
-        }
-    }
 
-    private static void printQValues(double[][][] qValues, Grid grid) {
-        for (int i = 0; i < grid.getHeight(); i++) {
-            for (int j = 0; j < grid.getWidth(); j++) {
-                System.out.print("(");
-                for (Action action : Action.values()) {
-                    System.out.printf("%.2f ", qValues[i][j][action.ordinal()]);
-                }
-                System.out.print(") ");
-            }
-            System.out.println();
-        }
-    }
+    
 }

@@ -18,4 +18,10 @@ public class ActionOutcome {
     public double getProbability() {
         return probability;
     }
+    public String toString() {
+        return "ActionOutcome{" +
+                "action=" + action +
+                ", probability=" + probability +
+                '}';
+    }
 }
