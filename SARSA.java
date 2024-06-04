@@ -27,7 +27,17 @@ public class SARSA {
 
             while (grid.getCell(x, y).getReward() == 0) {
                 int newX = x + action.getDeltaX();
+                if (newX<0)
+                    newX =0;
+                if (newX >= grid.getWidth()) 
+                    newX = grid.getHeight()-1;
+
                 int newY = y + action.getDeltaY();
+                if (newY<0)
+                    newY =0;
+                if (newY >= grid.getWidth()) {
+                    newY = grid.getWidth()-1;
+                }
                 if (newX >= 0 && newX < grid.getHeight() && newY >= 0 && newY < grid.getWidth()) {
                     double reward = grid.getCell(newX, newY).getReward();
                     Action nextAction = epsilonGreedy(newX, newY, rand);
