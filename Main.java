@@ -1,4 +1,9 @@
 import java.util.List;
+
+import Tools.Grid;
+import Tools.Reward;
+import Tools.PrintingTools;
+
 import java.util.Arrays;
 import java.awt.Point;
 
@@ -37,15 +42,12 @@ public class Main {
         sarsa.run();
 
         System.out.println("Value Iteration Results:");
-        Tools.printPolicy(vi.getPolicy(), grid);
+        PrintingTools.printPolicy(vi.getPolicy(), grid);
 
         System.out.println("Q-Learning Results:");
-        Tools.printPolicy(ql.getPolicy(), grid);
+        PrintingTools.printPolicy(ql.getPolicy(), grid);
 
         System.out.println("SARSA Results:");
-        Tools.printPolicy(sarsa.getPolicy(), grid);
+        PrintingTools.printPolicy(sarsa.getPolicy(), grid);
     }
-
-
-    
 }

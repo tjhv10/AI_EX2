@@ -1,5 +1,10 @@
 import java.util.Random;
 
+import Tools.Action;
+import Tools.Cell;
+import Tools.Grid;
+import Tools.CellType;
+
 public class QLearning {
     private Grid grid;
     private double alpha;
@@ -24,23 +29,22 @@ public class QLearning {
             int x = rand.nextInt(grid.getHeight());
             int y = rand.nextInt(grid.getWidth());
 
-            while (grid.getCell(x, y).getReward() == 0) {
+            while (grid.getCell(x, y).getReward() == 0 && grid.getCell(x, y).getCellType() != CellType.WALL) {
                 Action action = epsilonGreedy(x, y, rand);
                 int newX = x + action.getDeltaX();
                 int newY = y + action.getDeltaY();
                 
-                if (newX < 0) newX = 0;
-                if (newX >= grid.getHeight()) newX = grid.getHeight() - 1;
-                if (newY < 0) newY = 0;
-                if (newY >= grid.getWidth()) newY = grid.getWidth() - 1;
-                
-                if (newX >= 0 && newX < grid.getHeight() && newY >= 0 && newY < grid.getWidth()) {
-                    double reward = grid.getCell(newX, newY).getReward();
-                    double maxQ = maxQ(newX, newY);
-                    qValues[x][y][action.ordinal()] += alpha * (reward + gamma * maxQ - qValues[x][y][action.ordinal()]);
-                    x = newX;
-                    y = newY;
+                if (newX < 0 || newX >= grid.getHeight() || newY < 0 || newY >= grid.getWidth() || grid.getCell(newX, newY).getCellType() == CellType.WALL) {
+                    newX = x;
+                    newY = y;
                 }
+                
+                double reward = grid.getCell(newX, newY).getReward();
+                double maxQ = maxQ(newX, newY);
+                qValues[x][y][action.ordinal()] += alpha * (reward + gamma * maxQ - qValues[x][y][action.ordinal()]);
+
+                x = newX;
+                y = newY;
             }
         }
     }
@@ -70,9 +74,15 @@ public class QLearning {
     }
 
     public Action[][] getPolicy() {
-        Action[][] policy = new Action[grid.getHeight()][grid.getWidth()];
-        for (int i = 0; i < grid.getHeight(); i++) {
-            for (int j = 0; j < grid.getWidth(); j++) {
+    Action[][] policy = new Action[grid.getHeight()][grid.getWidth()];
+    for (int i = 0; i < grid.getHeight(); i++) {
+        for (int j = 0; j < grid.getWidth(); j++) {
+            Cell cell = grid.getCell(i, j);
+            if (cell.getCellType() == CellType.WALL) {
+                policy[i][j] = null; // No action for walls
+            } else if (cell.getReward() != 0) {
+                policy[i][j] = null; // No action for terminal states
+            } else {
                 double maxQ = Double.NEGATIVE_INFINITY;
                 Action bestAction = null;
                 for (Action action : Action.values()) {
@@ -84,8 +94,10 @@ public class QLearning {
                 policy[i][j] = bestAction;
             }
         }
-        return policy;
     }
+    return policy;
+}
+
 
     public double[][][] getQValues() {
         return qValues;

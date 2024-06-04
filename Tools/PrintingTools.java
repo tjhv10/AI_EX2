@@ -1,4 +1,5 @@
-public class Tools {
+package Tools;
+public class PrintingTools {
     public static void printPolicy(Action[][] policy, Grid grid) {
         for (int i = 0; i < grid.getHeight(); i++) {
             for (int j = 0; j < grid.getWidth(); j++) {
@@ -6,20 +7,20 @@ public class Tools {
                     if(grid.getCell(i, j).getCellType().equals(CellType.REWARD))
                         System.out.print(grid.getCell(i, j).getReward());
                     else
-                    System.out.print(" /   ");
+                    System.out.print("|=!=| ");
                 } else {
                     switch (policy[i][j]) {
                         case UP:
-                            System.out.print(" ^  ");
+                            System.out.print("  ^   ");
                             break;
                         case DOWN:
-                            System.out.print(" v  ");
+                            System.out.print("  v   ");
                             break;
                         case LEFT:
-                            System.out.print(" <- ");
+                            System.out.print("  <-  ");
                             break;
                         case RIGHT:
-                            System.out.print(" -> ");
+                            System.out.print("  ->  ");
                             break;
                     }
                 }

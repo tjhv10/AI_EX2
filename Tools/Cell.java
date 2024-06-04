@@ -1,3 +1,4 @@
+package Tools;
 public class Cell {
     private double stepCost;
     private double reward;
