@@ -1,5 +1,4 @@
 package Stracture;
-import java.util.List;
 import java.awt.Point;
 
 public class Grid {
@@ -7,14 +6,14 @@ public class Grid {
     private int height;
     private Cell[][] grid;
 
-    public Grid(int width, int height, List<Reward> rewards, double stepCost, List<Point> walls) {
+    public Grid(int width, int height, Reward[] rewards, double stepCost, Point[] walls) {
         this.width = width;
         this.height = height;
         grid = new Cell[height][width];
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                grid[i][j] = new Cell(stepCost, CellType.EMPTY);
+                grid[i][j] = new Cell(stepCost, CellType.NORMAL);
             }
         }
 

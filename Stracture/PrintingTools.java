@@ -1,4 +1,5 @@
 package Stracture;
+
 public class PrintingTools {
     public static void printPolicy(Action[][] policy, Grid grid) {
         for (int i = 0; i < grid.getHeight(); i++) {

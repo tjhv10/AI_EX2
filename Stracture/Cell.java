@@ -9,7 +9,7 @@ public class Cell {
         this.cellType = cellType;
         this.reward = 0;  // Default reward, can be changed later if needed
     }
-
+    
     public double getStepCost() {
         return stepCost;
     }

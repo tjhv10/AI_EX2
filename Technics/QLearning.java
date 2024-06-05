@@ -11,25 +11,26 @@ public class QLearning {
     private double alpha;
     private double gamma;
     private double epsilon;
-    private int episodes;
+    private double theta;
     private double[][][] qValues;
 
-    public QLearning(Grid grid, double alpha, double gamma, double epsilon, int episodes) {
+    public QLearning(Grid grid, double alpha, double gamma, double epsilon, double theta) {
         this.grid = grid;
         this.alpha = alpha;
         this.gamma = gamma;
         this.epsilon = epsilon;
-        this.episodes = episodes;
+        this.theta = theta;
         this.qValues = new double[grid.getHeight()][grid.getWidth()][Action.values().length];
     }
 
     public void run() {
         Random rand = new Random();
-
-        for (int episode = 0; episode < episodes; episode++) {
+        boolean converged = false;
+    
+        while (!converged) {
             int x = rand.nextInt(grid.getHeight());
             int y = rand.nextInt(grid.getWidth());
-
+    
             while (grid.getCell(x, y).getReward() == 0 && grid.getCell(x, y).getCellType() != CellType.WALL) {
                 Action action = epsilonGreedy(x, y, rand);
                 int newX = x + action.getDeltaX();
@@ -42,13 +43,34 @@ public class QLearning {
                 
                 double reward = grid.getCell(newX, newY).getReward();
                 double maxQ = maxQ(newX, newY);
-                qValues[x][y][action.ordinal()] += alpha * (reward + gamma * maxQ - qValues[x][y][action.ordinal()]);
-
+                double oldQ = qValues[x][y][action.ordinal()];
+                qValues[x][y][action.ordinal()] += alpha * (reward + gamma * maxQ - oldQ);
+    
                 x = newX;
                 y = newY;
             }
+            
+            // Check for convergence every iteration
+            converged = checkConvergence();
         }
     }
+    
+    private boolean checkConvergence() {
+        double maxChange = Double.NEGATIVE_INFINITY;
+        for (int i = 0; i < grid.getHeight(); i++) {
+            for (int j = 0; j < grid.getWidth(); j++) {
+                for (int k = 0; k < Action.values().length; k++) {
+                    double change = Math.abs(qValues[i][j][k]);
+                    System.out.println(change);
+                    if (change > maxChange) {
+                        maxChange = change;
+                    }
+                }
+            }
+        }
+        return maxChange <= theta;
+    }
+    
 
     private Action epsilonGreedy(int x, int y, Random rand) {
         if (rand.nextDouble() < epsilon) {

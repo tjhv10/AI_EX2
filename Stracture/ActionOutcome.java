@@ -1,4 +1,5 @@
 package Stracture;
+
 public class ActionOutcome {
     private Action action;
     private double probability;
@@ -14,6 +15,10 @@ public class ActionOutcome {
 
     public int getDeltaY() {
         return action.getDeltaY();
+    }
+    public Action getAction()
+    {
+        return action;
     }
 
     public double getProbability() {

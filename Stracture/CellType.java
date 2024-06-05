@@ -1,6 +1,6 @@
 package Stracture;
 public enum CellType {
-    EMPTY,
+    NORMAL,
     WALL,
     REWARD
 }
