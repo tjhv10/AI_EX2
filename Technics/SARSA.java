@@ -191,7 +191,7 @@ public class SARSA {
                 y = newY;
                 action = nextAction;
             }
-            if (checkConvergence()&&episode>episodes/2) {
+            if (episode>episodes/2&&checkConvergence()) {
                 break;
             }
         }
