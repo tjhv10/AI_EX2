@@ -36,7 +36,7 @@ public class Main {
         double theta = 0.01;
         double alpha = 0.1;
         double epsilon = 0.1;
-        int episodes = 100;
+        int episodes = 500;
         double p = 0.8;
         long startTime;
         long endTime;
@@ -73,7 +73,6 @@ public class Main {
         endTime = System.currentTimeMillis();
         long sarsaTime = endTime - startTime;
         System.out.println("SARSA Time: " + sarsaTime + " ms");
-
 
         System.out.println("SARSA Results:");
         PrintingTools.printPolicy(sarsa.getPolicy(), grid);
