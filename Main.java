@@ -56,7 +56,7 @@ public class Main {
 
         // Measure time for PIB
         startTime = System.currentTimeMillis();
-        PolicyIterationBoltzmann PIB = new PolicyIterationBoltzmann(grid, discountFactor, theta, p, 0.01);
+        PolicyIterationBoltzmann PIB = new PolicyIterationBoltzmann(grid, discountFactor, theta, p, 1, 0.5);
         PIB.run();
         endTime = System.currentTimeMillis();
         long pibTime = endTime - startTime;
