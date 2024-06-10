@@ -147,7 +147,7 @@ import Stracture.Grid;
 public class SARSA {
     private Grid grid;
     private double alpha;
-    private double gamma;
+    private double discountFactor;
     private double epsilon;
     private int episodes;
     private double theta;
@@ -158,7 +158,7 @@ public class SARSA {
     public SARSA(Grid grid, double alpha, double gamma, double epsilon, int episodes, double theta, double p) {
         this.grid = grid;
         this.alpha = alpha;
-        this.gamma = gamma;
+        this.discountFactor = gamma;
         this.epsilon = epsilon;
         this.episodes = episodes;
         this.theta = theta;
@@ -186,7 +186,7 @@ public class SARSA {
                 Action nextAction = epsilonGreedy(newX, newY, rand);
                 double qNext = qValues[newX][newY][nextAction.ordinal()];
                 double oldQ = qValues[x][y][action.ordinal()];
-                qValues[x][y][action.ordinal()] += alpha * (reward + gamma * qNext - oldQ);
+                qValues[x][y][action.ordinal()] += alpha * (reward + discountFactor * qNext - oldQ);
                 x = newX;
                 y = newY;
                 action = nextAction;

@@ -50,13 +50,13 @@ public class Main {
         System.out.println();
         System.out.println("Value Iteration Time: " + viTime + " ms");
 
-
         System.out.println("Value Iteration Results:");
         PrintingTools.printPolicy(vi.getPolicy(), grid);
+        System.out.println();
 
-
+        // Measure time for PIB
         startTime = System.currentTimeMillis();
-        PolicyIterationBoltzmann PIB = new PolicyIterationBoltzmann(grid,discountFactor, theta, p,0.001);
+        PolicyIterationBoltzmann PIB = new PolicyIterationBoltzmann(grid, discountFactor, theta, p, 0.001);
         PIB.run();
         endTime = System.currentTimeMillis();
         long pibTime = endTime - startTime;
@@ -64,11 +64,12 @@ public class Main {
 
         System.out.println("PIB Results:");
         PrintingTools.printPolicy(PIB.getPolicy(), grid);
+        System.out.println();
 
 
         // Measure time for SARSA
         startTime = System.currentTimeMillis();
-        SARSA sarsa = new SARSA(grid, alpha, discountFactor, epsilon,episodes, theta,p);
+        SARSA sarsa = new SARSA(grid, alpha, discountFactor, epsilon, episodes, theta, p);
         sarsa.run();
         endTime = System.currentTimeMillis();
         long sarsaTime = endTime - startTime;
