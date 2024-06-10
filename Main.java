@@ -36,7 +36,7 @@ public class Main {
         double theta = 0.01;
         double alpha = 0.1;
         double epsilon = 0.1;
-        int episodes =1000;
+        int episodes = 100;
         double p = 0.8;
         long startTime;
         long endTime;
@@ -56,7 +56,7 @@ public class Main {
 
 
         startTime = System.currentTimeMillis();
-        PolicyIterationBoltzmann PIB = new PolicyIterationBoltzmann(grid,discountFactor, theta, p,0.01);
+        PolicyIterationBoltzmann PIB = new PolicyIterationBoltzmann(grid,discountFactor, theta, p,0.001);
         PIB.run();
         endTime = System.currentTimeMillis();
         long pibTime = endTime - startTime;
