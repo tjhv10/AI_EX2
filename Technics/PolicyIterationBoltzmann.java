@@ -7,14 +7,15 @@ import Stracture.CellType;
 import Stracture.Grid;
 
 public class PolicyIterationBoltzmann {
-    private Grid grid;
-    private double discountFactor;
-    private double theta;
-    private double[][] utilities;
-    private Action[][] policy;
-    private double p;
-    private double temperature;
+    private Grid grid; // The grid representing the environment
+    private double discountFactor; // Discount factor for future rewards
+    private double theta; // Threshold for convergence
+    private double[][] utilities; // Utilities for each state
+    private Action[][] policy; // Derived policy from utilities
+    private double p; // Probability used for action outcomes
+    private double temperature; // Temperature parameter for Boltzmann distribution
 
+    // Constructor to initialize PolicyIterationBoltzmann parameters
     public PolicyIterationBoltzmann(Grid grid, double discountFactor, double theta, double p, double temperature) {
         this.grid = grid;
         this.discountFactor = discountFactor;
@@ -25,6 +26,7 @@ public class PolicyIterationBoltzmann {
         this.temperature = temperature;
     }
 
+    // Main method to run the Policy Iteration algorithm
     public void run() {
         int width = grid.getWidth();
         int height = grid.getHeight();
@@ -82,6 +84,7 @@ public class PolicyIterationBoltzmann {
         extractPolicy();
     }
 
+    // Method to extract the policy based on the utilities using Boltzmann distribution
     private void extractPolicy() {
         int width = grid.getWidth();
         int height = grid.getHeight();
@@ -118,6 +121,7 @@ public class PolicyIterationBoltzmann {
         }
     }
 
+    // Method to select an action based on the Boltzmann distribution
     private Action selectAction(double[] actionProbabilities) {
         double rand = Math.random();
         double cumulativeProbability = 0.0;
@@ -130,10 +134,12 @@ public class PolicyIterationBoltzmann {
         return Action.values()[Action.values().length - 1]; // Return the last action by default
     }
 
+    // Getter for utilities
     public double[][] getUtilities() {
         return utilities;
     }
 
+    // Getter for the derived policy
     public Action[][] getPolicy() {
         return policy;
     }

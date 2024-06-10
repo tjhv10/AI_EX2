@@ -56,7 +56,7 @@ public class Main {
 
         // Measure time for PIB
         startTime = System.currentTimeMillis();
-        PolicyIterationBoltzmann PIB = new PolicyIterationBoltzmann(grid, discountFactor, theta, p, 0.001);
+        PolicyIterationBoltzmann PIB = new PolicyIterationBoltzmann(grid, discountFactor, theta, p, 0.01);
         PIB.run();
         endTime = System.currentTimeMillis();
         long pibTime = endTime - startTime;
@@ -77,5 +77,6 @@ public class Main {
 
         System.out.println("SARSA Results:");
         PrintingTools.printPolicy(sarsa.getPolicy(), grid);
+        System.out.println();
     }
 }

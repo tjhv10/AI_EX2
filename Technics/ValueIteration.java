@@ -1,4 +1,5 @@
 package Technics;
+
 import Stracture.Action;
 import Stracture.ActionOutcome;
 import Stracture.Cell;
@@ -6,13 +7,14 @@ import Stracture.CellType;
 import Stracture.Grid;
 
 public class ValueIteration {
-    private Grid grid;
-    private double discountFactor;
-    private double theta;
-    private double[][] utilities;
-    private Action[][] policy;
-    private double p;
+    private Grid grid; // The grid representing the environment
+    private double discountFactor; // Discount factor for future rewards
+    private double theta; // Threshold for convergence
+    private double[][] utilities; // Utilities for each state
+    private Action[][] policy; // Derived policy from utilities
+    private double p; // Probability used for action outcomes
 
+    // Constructor to initialize ValueIteration parameters
     public ValueIteration(Grid grid, double discountFactor, double theta, double p) {
         this.grid = grid;
         this.discountFactor = discountFactor;
@@ -22,6 +24,7 @@ public class ValueIteration {
         this.p = p;
     }
 
+    // Main method to run the Value Iteration algorithm
     public void run() {
         int width = grid.getWidth();
         int height = grid.getHeight();
@@ -35,11 +38,11 @@ public class ValueIteration {
                     Cell cell = grid.getCell(i, j);
                     double reward = cell.getReward();
                     if (cell.getCellType() == CellType.WALL) {
-                        newUtilities[i][j] = 0;
-                        policy[i][j] = null; 
+                        newUtilities[i][j] = 0; // Utilities for walls are zero
+                        policy[i][j] = null; // No action for walls
                     } else if (reward != 0) {
-                        newUtilities[i][j] = reward;
-                        policy[i][j] = null;
+                        newUtilities[i][j] = reward; // Terminal state utilities are their rewards
+                        policy[i][j] = null; // No action for terminal states
                     } else {
                         double maxUtility = Double.NEGATIVE_INFINITY;
                         Action bestAction = null;
@@ -48,6 +51,7 @@ public class ValueIteration {
                             for (ActionOutcome outcome : action.getOutcomes(p)) {
                                 int newX = i + outcome.getDeltaX();
                                 int newY = j + outcome.getDeltaY();
+                                // Check for boundaries and walls
                                 if (newX >= 0 && newX < height && newY >= 0 && newY < width) {
                                     if (grid.getCell(newX, newY).getCellType() == CellType.WALL) {
                                         utility += outcome.getProbability() * utilities[i][j];
@@ -66,22 +70,25 @@ public class ValueIteration {
                         newUtilities[i][j] = cell.getStepCost() + discountFactor * maxUtility;
                         policy[i][j] = bestAction;
                     }
-                    
+                    // Check for convergence
                     if (Math.abs(newUtilities[i][j] - utilities[i][j]) > theta) {
                         converged = false;
                     }
                 }
             }
+            // Swap references for utilities arrays
             double[][] temp = utilities;
             utilities = newUtilities;
             newUtilities = temp;
         }
     }
 
+    // Getter for utilities
     public double[][] getUtilities() {
         return utilities;
     }
 
+    // Getter for the derived policy
     public Action[][] getPolicy() {
         return policy;
     }
