@@ -86,59 +86,8 @@ public class PolicyIterationBoltzmann {
             // Decrease the temperature
             temperature = temperature * coolingRate;
         }
-        extractPolicy();
     }
-
-    // Method to extract the policy based on the utilities using Boltzmann distribution
-    private void extractPolicy() {
-        int width = grid.getWidth();
-        int height = grid.getHeight();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                Cell cell = grid.getCell(i, j);
-                if (cell.getReward() == 0 && cell.getCellType() != CellType.WALL) {
-                    double[] actionProbabilities = new double[Action.values().length];
-                    double sum = 0;
-                    for (Action action : Action.values()) {
-                        double utility = 0;
-                        for (ActionOutcome outcome : action.getOutcomes(p)) {
-                            int newX = i + outcome.getDeltaX();
-                            int newY = j + outcome.getDeltaY();
-                            if (newX >= 0 && newX < height && newY >= 0 && newY < width) {
-                                if (grid.getCell(newX, newY).getCellType() == CellType.WALL) {
-                                    utility += outcome.getProbability() * utilities[i][j];
-                                } else {
-                                    utility += outcome.getProbability() * utilities[newX][newY];
-                                }
-                            } else {
-                                utility += outcome.getProbability() * utilities[i][j];
-                            }
-                        }
-                        actionProbabilities[action.ordinal()] = Math.exp(utility / temperature);
-                        sum += actionProbabilities[action.ordinal()];
-                    }
-                    for (int k = 0; k < actionProbabilities.length; k++) {
-                        actionProbabilities[k] /= sum;
-                    }
-                    policy[i][j] = selectAction(actionProbabilities);
-                }
-            }
-        }
-    }
-
-    // Method to select an action based on the Boltzmann distribution
-    private Action selectAction(double[] actionProbabilities) {
-        double rand = Math.random();
-        double cumulativeProbability = 0.0;
-        for (int i = 0; i < actionProbabilities.length; i++) {
-            cumulativeProbability += actionProbabilities[i];
-            if (rand <= cumulativeProbability) {
-                return Action.values()[i];
-            }
-        }
-        return Action.values()[Action.values().length - 1]; // Return the last action by default
-    }
-
+    
     // Getter for utilities
     public double[][] getUtilities() {
         return utilities;
