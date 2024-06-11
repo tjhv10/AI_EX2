@@ -1,4 +1,5 @@
 package Stracture;
+
 public class Reward {
     private int x;
     private int y;
