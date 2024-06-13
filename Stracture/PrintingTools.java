@@ -6,23 +6,15 @@ public class PrintingTools {
             for (int j = 0; j < grid.getWidth(); j++) {
                 if (policy[i][j] == null) {
                     if(grid.getCell(i, j).getCellType().equals(CellType.REWARD))
-                        System.out.print(grid.getCell(i, j).getReward());
+                        System.out.print(String.format("%6s", grid.getCell(i, j).getReward()));
                     else
                     System.out.print("|=!=| ");
                 } else {
                     switch (policy[i][j]) {
-                        case UP:
-                            System.out.print("  ^   ");
-                            break;
-                        case DOWN:
-                            System.out.print("  v   ");
-                            break;
-                        case LEFT:
-                            System.out.print("  <-  ");
-                            break;
-                        case RIGHT:
-                            System.out.print("  ->  ");
-                            break;
+                        case RIGHT -> System.out.print("  ->  ");
+                        case UP -> System.out.print("  ^   ");
+                        case DOWN -> System.out.print("  v   ");
+                        case LEFT -> System.out.print("  <-  ");
                     }
                 }
             }

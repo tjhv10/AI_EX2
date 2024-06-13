@@ -7,21 +7,15 @@ import Stracture.CellType;
 import Stracture.Grid;
 
 public class ValueIteration {
-    private Grid grid; // The grid representing the environment
-    private double discountFactor; // Discount factor for future rewards
-    private double theta; // Threshold for convergence
+    private final Grid grid; // The grid representing the environment
     private double[][] utilities; // Utilities for each state
-    private Action[][] policy; // Derived policy from utilities
-    private double p; // Probability used for action outcomes
+    private final Action[][] policy; // Derived policy from utilities
 
     // Constructor to initialize ValueIteration parameters
-    public ValueIteration(Grid grid, double discountFactor, double theta, double p) {
+    public ValueIteration(Grid grid) {
         this.grid = grid;
-        this.discountFactor = discountFactor;
-        this.theta = theta;
         this.utilities = new double[grid.getHeight()][grid.getWidth()];
         this.policy = new Action[grid.getHeight()][grid.getWidth()];
-        this.p = p;
     }
 
     // Main method to run the Value Iteration algorithm
@@ -48,7 +42,7 @@ public class ValueIteration {
                         Action bestAction = null;
                         for (Action action : Action.values()) {
                             double utility = 0;
-                            for (ActionOutcome outcome : action.getOutcomes(p)) {
+                            for (ActionOutcome outcome : action.getOutcomes(grid.getP())) {
                                 int newX = i + outcome.getDeltaX();
                                 int newY = j + outcome.getDeltaY();
                                 // Check for boundaries and walls
@@ -67,11 +61,11 @@ public class ValueIteration {
                                 bestAction = action;
                             }
                         }
-                        newUtilities[i][j] = cell.getStepCost() + discountFactor * maxUtility;
+                        newUtilities[i][j] = cell.getStepCost() + 0.5 * maxUtility;
                         policy[i][j] = bestAction;
                     }
                     // Check for convergence
-                    if (Math.abs(newUtilities[i][j] - utilities[i][j]) > theta) {
+                    if (Math.abs(newUtilities[i][j] - utilities[i][j]) > 0.01) {
                         converged = false;
                     }
                 }

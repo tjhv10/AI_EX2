@@ -1,9 +1,9 @@
 package Stracture;
 
 public class Reward {
-    private int x;
-    private int y;
-    private double reward;
+    private final int x;
+    private final int y;
+    private final double reward;
 
     public Reward(int x, int y, double reward) {
         this.x = x;

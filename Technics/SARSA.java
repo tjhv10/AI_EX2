@@ -1,33 +1,27 @@
 package Technics;
 
-import java.util.Random;
 import Stracture.Action;
 import Stracture.ActionOutcome;
 import Stracture.CellType;
 import Stracture.Grid;
+import java.util.Random;
 
 public class SARSA {
-    private Grid grid; // The grid representing the environment
-    private double alpha; // Learning rate
-    private double discountFactor; // Discount factor for future rewards
-    private double epsilon; // Epsilon for the epsilon-greedy policy
-    private int episodes; // Number of episodes to run
-    private double theta; // Threshold for convergence
-    private double[][][] qValues; // Q-values for each state-action pair
-    private Action[][] policy; // Derived policy from Q-values
-    private double p; // Probability used for action outcomes
+    private final Grid grid; // The grid representing the environment
+    private final double alpha; // Learning rate
+    private final double epsilon; // Epsilon for the epsilon-greedy policy
+    private final int episodes; // Number of episodes to run
+    private final double[][][] qValues; // Q-values for each state-action pair
+    private final Action[][] policy; // Derived policy from Q-values
 
     // Constructor to initialize SARSA parameters
-    public SARSA(Grid grid, double alpha, double gamma, double epsilon, int episodes, double theta, double p) {
+    public SARSA(Grid grid, double alpha, double epsilon, int episodes) {
         this.grid = grid;
         this.alpha = alpha;
-        this.discountFactor = gamma;
         this.epsilon = epsilon;
         this.episodes = episodes;
-        this.theta = theta;
         this.qValues = new double[grid.getHeight()][grid.getWidth()][Action.values().length];
         this.policy = new Action[grid.getHeight()][grid.getWidth()];
-        this.p = p;
     }
 
     // Main method to run the SARSA algorithm
@@ -37,9 +31,10 @@ public class SARSA {
             int x = rand.nextInt(grid.getHeight());
             int y = rand.nextInt(grid.getWidth());
             Action action = epsilonGreedy(x, y, rand);
-
+            boolean stuck = false;
             // Continue the episode until reaching a terminal state
-            while (grid.getCell(x, y).getReward() == 0 && grid.getCell(x, y).getCellType() != CellType.WALL) {
+            while (!stuck&&grid.getCell(x, y).getReward() == 0 && grid.getCell(x, y).getCellType() != CellType.WALL) {
+                stuck = false;
                 int newX = x + action.getDeltaX();
                 int newY = y + action.getDeltaY();
 
@@ -47,17 +42,18 @@ public class SARSA {
                 if (newX < 0 || newX >= grid.getHeight() || newY < 0 || newY >= grid.getWidth() || grid.getCell(newX, newY).getCellType() == CellType.WALL) {
                     newX = x;
                     newY = y;
+                    stuck =true;
                 }
+
                 double reward = grid.getCell(newX, newY).getReward();
                 Action nextAction = epsilonGreedy(newX, newY, rand);
                 double qNext = qValues[newX][newY][nextAction.ordinal()];
                 double oldQ = qValues[x][y][action.ordinal()];
-                qValues[x][y][action.ordinal()] += alpha * (reward + discountFactor * qNext - oldQ);
+                qValues[x][y][action.ordinal()] += alpha * (reward + 0.5 * qNext - oldQ);
                 x = newX;
                 y = newY;
                 action = nextAction;
             }
-            // Check for convergence after half the episodes
             if (episode > episodes / 2 && checkConvergence()) {
                 break;
             }
@@ -78,7 +74,7 @@ public class SARSA {
                 }
             }
         }
-        return maxChange < theta;
+        return maxChange < 0.01;
     }
 
     // Update the policy based on the Q-values
@@ -92,7 +88,7 @@ public class SARSA {
                     Action bestAction = null;
                     for (Action action : Action.values()) {
                         double newMaxQ = 0;
-                        for (ActionOutcome ao : action.getOutcomes(p)) {
+                        for (ActionOutcome ao : action.getOutcomes(grid.getP())) {
                             newMaxQ += qValues[i][j][ao.getAction().ordinal()] * ao.getProbability();
                         }
                         if (newMaxQ > maxQ) {
@@ -115,7 +111,7 @@ public class SARSA {
             Action bestAction = null;
             for (Action action : Action.values()) {
                 double newMaxQ = 0;
-                for (ActionOutcome ao : action.getOutcomes(p)) {
+                for (ActionOutcome ao : action.getOutcomes(grid.getP())) {
                     newMaxQ += qValues[x][y][ao.getAction().ordinal()] * ao.getProbability();
                 }
                 if (newMaxQ > maxQ) {

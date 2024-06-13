@@ -1,7 +1,7 @@
 package Stracture;
 
 public class Cell {
-    private double stepCost;
+    private final double stepCost;
     private double reward;
     private CellType cellType;
 
