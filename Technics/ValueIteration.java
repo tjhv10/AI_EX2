@@ -19,7 +19,7 @@ public class ValueIteration {
     }
 
     // Main method to run the Value Iteration algorithm
-    public void run() {
+    public double[][] run() {
         int width = grid.getWidth();
         int height = grid.getHeight();
         double[][] newUtilities = new double[height][width];
@@ -82,6 +82,7 @@ public class ValueIteration {
             }
             System.out.println();
         }
+        return utilities;
     }
 
     // Getter for utilities
