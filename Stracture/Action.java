@@ -32,16 +32,19 @@ public enum Action {
 
     public Action getLeft() {
         switch (this) {
-            case UP:
+            case UP -> {
                 return LEFT;
-            case DOWN:
+            }
+            case DOWN -> {
                 return RIGHT;
-            case LEFT:
+            }
+            case LEFT -> {
                 return DOWN;
-            case RIGHT:
+            }
+            case RIGHT -> {
                 return UP;
-            default:
-                throw new IllegalArgumentException();
+            }
+            default -> throw new IllegalArgumentException();
         }
     }
 
