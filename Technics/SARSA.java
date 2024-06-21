@@ -25,7 +25,8 @@ public class SARSA {
     }
 
     // Main method to run the SARSA algorithm
-    public void run() {
+    public double[][] run() {
+        double[][] ret = new double[grid.getHeight()][grid.getWidth()];
         Random rand = new Random();
 
         for (int episode = 0; episode < episodes; episode++) {
@@ -49,7 +50,7 @@ public class SARSA {
                 Action nextAction = epsilonGreedy(newX, newY, rand);
                 double oldQ = qValues[x][y][action.ordinal()];
 
-                if (curReward != 0||grid.getCell(newX, newY).getCellType() == CellType.WALL) {
+                if (curReward != 0||grid.getCell(x, y).getCellType() == CellType.WALL) {
                     // Terminal state: directly set the Q-values to the reward
                     for (int i = 0; i < Action.values().length; i++) {
                         qValues[x][y][i] = curReward;
@@ -73,7 +74,6 @@ public class SARSA {
                 x = newX;
                 y = newY;
                 action = nextAction;
-
                 if (grid.getCell(x, y).getReward() != 0) {
                     break;
                 }
@@ -85,13 +85,16 @@ public class SARSA {
         }
 
         System.out.println("SARSA:");
-        for (double[][] qValue : qValues) {
+        for (int i = 0; i < qValues.length; i++) 
+        {
             for (int j = 0; j < qValues[0].length; j++) {
-                System.out.print(String.format("%.5f", findMax(qValue[j])) + " ");
+                System.out.print(String.format("%.5f", findMax(qValues[i][j])) + " ");
+                ret[i][j] = findMax(qValues[i][j]);
             }
             System.out.println();
         }
         updatePolicy();
+        return ret;
     }
 
     // Method to check for convergence based on Q-values

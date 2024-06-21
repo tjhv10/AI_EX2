@@ -23,7 +23,7 @@ public class PolicyIterationBoltzmann {
     }
 
     // Main method to run the Policy Iteration algorithm
-    public void run() {
+    public double [][] run() {
         int width = grid.getWidth();
         int height = grid.getHeight();
         double[][] newUtilities = new double[height][width];
@@ -80,13 +80,14 @@ public class PolicyIterationBoltzmann {
             // Decrease the temperature
             temperature = temperature * coolingRate;
         }
-        System.out.println("PIB:");
-        for (double[] utilitie : utilities) {
-            for (int j = 0; j < utilities[0].length; j++) {
-                System.out.print(String.format("%.5f", utilitie[j]) + " ");
-            }
-            System.out.println();
-        }
+        // System.out.println("PIB:");
+        // for (double[] utilitie : utilities) {
+        //     for (int j = 0; j < utilities[0].length; j++) {
+        //         System.out.print(String.format("%.5f", utilitie[j]) + " ");
+        //     }
+        //     System.out.println();
+        // }
+        return utilities;
     }
     
     // Getter for utilities
