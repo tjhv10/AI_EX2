@@ -24,7 +24,7 @@ public class Main {
         int x = 0;
         double [][] vi = new ValueIteration(grids.get(x)).run();
         double [][] pib = new PolicyIterationBoltzmann(grids.get(x), 1, 0.5).run();
-        double [][] sarsa = new SARSA(grids.get(x), alpha, epsilon,100000).run();
+        double [][] sarsa = new SARSA(grids.get(x), alpha, epsilon,10000).run();
         System.out.println("Diffrance: "+Tools.averageDifference(vi, sarsa));
     }
 }
