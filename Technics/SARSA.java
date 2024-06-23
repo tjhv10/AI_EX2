@@ -139,9 +139,16 @@ public class SARSA {
 
     public static double findMax(double[] array) {
         double max = array[0];
-        for (int i = 1; i < array.length; i++) {
+        int x =1;
+        if(max==0)
+        {
+            max = array[1];
+            x++;
+        }
+        for (int i = x; i < array.length; i++) {
             if (array[i] > max) {
-                max = array[i];
+                if(array[i]!=0)
+                    max = array[i];
             }
         }
         return max;
