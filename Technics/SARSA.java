@@ -87,14 +87,14 @@ public class SARSA {
             }
         }
 
-        System.out.println("SARSA:");
+        // System.out.println("SARSA:");
         for (int i = 0; i < qValues.length; i++) 
         {
             for (int j = 0; j < qValues[0].length; j++) {
-                System.out.print(String.format("%.5f", findMax(qValues[i][j])) + " ");
+                // System.out.print(String.format("%.5f", findMax(qValues[i][j])) + " ");
                 ret[i][j] = findMax(qValues[i][j]);
             }
-            System.out.println();
+            // System.out.println();
         }
         updatePolicy();
         return ret;

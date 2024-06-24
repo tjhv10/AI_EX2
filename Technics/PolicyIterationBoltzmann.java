@@ -29,10 +29,8 @@ public class PolicyIterationBoltzmann {
         int width = grid.getWidth();
         int height = grid.getHeight();
         double[][] newUtilities = new double[height][width];
-        int count = 0;
         boolean converged = false;
-        while (!converged||count<10000) {
-            count++;
+        while (!converged) {
             converged = true;
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
@@ -90,13 +88,13 @@ public class PolicyIterationBoltzmann {
             // Decrease the temperature
             temperature = temperature * coolingRate;           
         }
-        System.out.println("PIB:");
-        for (double[] row : utilities) {
-            for (double value : row) {
-                System.out.print(String.format("%.5f", value) + " ");
-            }
-            System.out.println();
-        }
+        // System.out.println("PIB:");
+        // for (double[] row : utilities) {
+        //     for (double value : row) {
+        //         System.out.print(String.format("%.5f", value) + " ");
+        //     }
+        //     System.out.println();
+        // }
         return utilities;
     }
     

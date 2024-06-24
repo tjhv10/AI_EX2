@@ -14,7 +14,7 @@ def string_to_2d_array(numbers, rows, cols):
 # Function to write each row of 2D arrays into consecutive rows in Excel
 def write_arrays_to_excel_rows(arrays, output_file):
     # Create a new workbook and select the active worksheet
-    workbook = openpyxl.Workbook()
+    workbook = openpyxl.load_workbook(output_file)
     worksheet = workbook.active
     # print(arrays)
     # Write each row of each array into consecutive rows in Excel
@@ -49,7 +49,7 @@ def process_strings_from_file(input_file):
 
 # Example usage
 input_file = 'input.txt'  # Path to the input text file containing strings
-output_file = 'results_copy.xlsx'  # Path to save the Excel file
+output_file = 'results.xlsx'  # Path to save the Excel file
 
 # Process strings from file and convert them to 2D arrays
 arrays = process_strings_from_file(input_file)
