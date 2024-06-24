@@ -48,8 +48,8 @@ def process_strings_from_file(input_file):
     return arrays
 
 # Example usage
-input_file = 'input.txt'  # Path to the input text file containing strings
-output_file = 'results.xlsx'  # Path to save the Excel file
+input_file = 'results_for_xl.txt'  # Path to the input text file containing strings
+output_file = '213934599_207302027.xlsx'  # Path to save the Excel file
 
 # Process strings from file and convert them to 2D arrays
 arrays = process_strings_from_file(input_file)
