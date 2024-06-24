@@ -90,13 +90,13 @@ public class PolicyIterationBoltzmann {
             // Decrease the temperature
             temperature = temperature * coolingRate;           
         }
-        // System.out.println("PIB:");
-        // for (double[] row : utilities) {
-        //     for (double value : row) {
-        //         System.out.print(String.format("%.5f", value) + " ");
-        //     }
-        //     System.out.println();
-        // }
+        System.out.println("PIB:");
+        for (double[] row : utilities) {
+            for (double value : row) {
+                System.out.print(String.format("%.5f", value) + " ");
+            }
+            System.out.println();
+        }
         return utilities;
     }
     

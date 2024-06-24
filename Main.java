@@ -43,32 +43,32 @@ public class Main {
         List<Grid> grids = Grid.readFile();
         double alpha = 0.1;
         double epsilon = 0.1;
-        // double sum= 0;
-        // int puzzle = 1;
-        // for (Grid grid : grids) {
-        //     System.out.println(puzzle++ + ":");
-        //     double [][] vi = new ValueIteration(grid).run();
-        //     double [][] pib = new PolicyIterationBoltzmann(grid, 1, 0.5).run();
-        //     double [][] sarsa = new SARSA(grid, alpha, epsilon,10000).run();
-        //     sum+=Tools.averageDifference(vi, sarsa);
-        //     System.out.println("Diffrance: "+Tools.averageDifference(vi, sarsa));
-        // }
-        // System.out.println("Avrage diffrance: "+sum/10);
-        for (int x = 0; x < grids.size(); x++) {
-            // System.out.println("puzzle number "+(x+1)+":");
-            double [][] vi = new ValueIteration(grids.get(x)).run();
-            double [][] pib = new PolicyIterationBoltzmann(grids.get(x), 1, 0.5).run();
-            double [][] sarsa = new SARSA(grids.get(x), alpha, epsilon,10000).run();
-            System.out.println(x);
-            System.out.println("Diffrance VI, PIB: "+Tools.averageDifference(vi, pib));
-            System.out.println("Diffrance VI, SARSA: "+Tools.averageDifference(vi, sarsa));
-            System.out.println("Diffrance PIB, SARSA: "+Tools.averageDifference(pib, sarsa));
+        double sum= 0;
+        int puzzle = 1;
+        for (Grid grid : grids) {
+            System.out.println(puzzle++ + ":");
+            double [][] vi = new ValueIteration(grid).run();
+            double [][] pib = new PolicyIterationBoltzmann(grid, 1, 0.5).run();
+            double [][] sarsa = new SARSA(grid, alpha, epsilon,10000).run();
+            sum+=Tools.averageDifference(vi, sarsa);
+            System.out.println("Diffrance: "+Tools.averageDifference(vi, sarsa));
+        }
+        System.out.println("Avrage diffrance: "+sum/10);
+        // for (int x = 0; x < grids.size(); x++) {
+        //     // System.out.println("puzzle number "+(x+1)+":");
+        //     double [][] vi = new ValueIteration(grids.get(x)).run();
+        //     double [][] pib = new PolicyIterationBoltzmann(grids.get(x), 1, 0.5).run();
+        //     double [][] sarsa = new SARSA(grids.get(x), alpha, epsilon,10000).run();
+        //     System.out.println(x+1);
+        //     System.out.println("Diffrance VI, PIB: "+Tools.averageDifference(vi, pib));
+        //     System.out.println("Diffrance VI, SARSA: "+Tools.averageDifference(vi, sarsa));
+        //     System.out.println("Diffrance PIB, SARSA: "+Tools.averageDifference(pib, sarsa));
             // printMatrixDifference(vi,pib);
             // System.out.println();
             // printMatrixDifference(vi,sarsa);
             // System.out.println();
             // printMatrixDifference(pib,sarsa);
             // System.out.println();
-        }
+        // }
     }
 }
