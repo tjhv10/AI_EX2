@@ -58,17 +58,20 @@ public class SARSA {
                 } else {
                     // Non-terminal state: update Q-value using SARSA update rule
                     double expectedQ = 0.0;
-                    
-                    for (ActionOutcome outcome : action.getOutcomes(grid.getP())) {
-                        int oldx= newX,oldy= newY;
-                        newX = newX + outcome.getDeltaX();
-                        newY = newY + outcome.getDeltaY();
-                        if (newX < 0 || newX >= grid.getHeight() || newY < 0 || newY >= grid.getWidth()) {
-                            newX = oldx;
-                            newY = oldy;
-                        }
-                        expectedQ += qValues[oldx][oldy][outcome.getAction().ordinal()] * outcome.getProbability();
-                    }
+                    // ..................................
+                    // ? We couldnt understand if the sarsa algorithm uses probability in it so if it is then uncomment this for loop and comment row 74
+                    // ..................................
+                    // for (ActionOutcome outcome : action.getOutcomes(grid.getP())) {
+                    //     int oldx= newX,oldy= newY;
+                    //     newX = newX + outcome.getDeltaX();
+                    //     newY = newY + outcome.getDeltaY();
+                    //     if (newX < 0 || newX >= grid.getHeight() || newY < 0 || newY >= grid.getWidth()) {
+                    //         newX = oldx;
+                    //         newY = oldy;
+                    //     }
+                    //     expectedQ += qValues[oldx][oldy][outcome.getAction().ordinal()] * outcome.getProbability();
+                    // }
+                    expectedQ += qValues[newX][newY][nextAction.ordinal()];
                     qValues[x][y][action.ordinal()] += alpha * (curReward + grid.getCell(newX, newY).getStepCost() + 0.5 * expectedQ - oldQ);
                 }
                 x = newX;
@@ -84,14 +87,14 @@ public class SARSA {
             }
         }
 
-        System.out.println("SARSA:");
+        // System.out.println("SARSA:");
         for (int i = 0; i < qValues.length; i++) 
         {
             for (int j = 0; j < qValues[0].length; j++) {
-                System.out.print(String.format("%.5f", findMax(qValues[i][j])) + " ");
+        //         System.out.print(String.format("%.5f", findMax(qValues[i][j])) + " ");
                 ret[i][j] = findMax(qValues[i][j]);
             }
-            System.out.println();
+        //     System.out.println();
         }
         updatePolicy();
         return ret;

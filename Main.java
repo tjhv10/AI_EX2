@@ -27,8 +27,8 @@ public class Main {
                 }
             }
         }
-
         printMatrix(differenceMatrix);
+        System.out.println();
     }
 
     public static void printMatrix(double[][] matrix) {
@@ -36,7 +36,6 @@ public class Main {
             for (int j = 0; j < matrix[0].length; j++) {
                 System.out.print(matrix1[j] + " ");
             }
-            //System.out.println();
         }
     }
     public static void main(String[] args) throws InterruptedException {
@@ -55,23 +54,21 @@ public class Main {
         //     System.out.println("Diffrance: "+Tools.averageDifference(vi, sarsa));
         // }
         // System.out.println("Avrage diffrance: "+sum/10);
-        int x = 8;
-        double [][] vi = new ValueIteration(grids.get(x)).run();
-        double [][] pib = new PolicyIterationBoltzmann(grids.get(x), 1, 0.5).run();
-        double [][] sarsa = new SARSA(grids.get(x), alpha, epsilon,10000).run();
-        System.out.println("cels: "+vi[0].length*vi.length);
-        System.out.println("Diffrance: "+Tools.averageDifference(vi, sarsa));
-        System.out.println("MDP->MBRL");
-        printMatrixDifference(vi,pib);
-        System.out.println();
-        System.out.println("MDP->MFRL");
-        printMatrixDifference(vi,sarsa);
-        System.out.println();
-        System.out.println("MBRL->MFRL");
-        printMatrixDifference(pib,sarsa);
-
-
-
-
+        for (int x = 0; x < grids.size(); x++) {
+            // System.out.println("puzzle number "+(x+1)+":");
+            double [][] vi = new ValueIteration(grids.get(x)).run();
+            double [][] pib = new PolicyIterationBoltzmann(grids.get(x), 1, 0.5).run();
+            double [][] sarsa = new SARSA(grids.get(x), alpha, epsilon,10000).run();
+            System.out.println(x);
+            System.out.println("Diffrance VI, PIB: "+Tools.averageDifference(vi, pib));
+            System.out.println("Diffrance VI, SARSA: "+Tools.averageDifference(vi, sarsa));
+            System.out.println("Diffrance PIB, SARSA: "+Tools.averageDifference(pib, sarsa));
+            // printMatrixDifference(vi,pib);
+            // System.out.println();
+            // printMatrixDifference(vi,sarsa);
+            // System.out.println();
+            // printMatrixDifference(pib,sarsa);
+            // System.out.println();
+        }
     }
 }
