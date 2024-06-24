@@ -5,6 +5,8 @@ import Stracture.ActionOutcome;
 import Stracture.Cell;
 import Stracture.CellType;
 import Stracture.Grid;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PolicyIterationBoltzmann {
     private final Grid grid; // The grid representing the environment
@@ -27,9 +29,10 @@ public class PolicyIterationBoltzmann {
         int width = grid.getWidth();
         int height = grid.getHeight();
         double[][] newUtilities = new double[height][width];
-
+        int count = 0;
         boolean converged = false;
-        while (!converged) {
+        while (!converged||count<10000) {
+            count++;
             converged = true;
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
@@ -42,8 +45,7 @@ public class PolicyIterationBoltzmann {
                         newUtilities[i][j] = reward;
                         policy[i][j] = null;
                     } else {
-                        double maxUtility = Double.NEGATIVE_INFINITY;
-                        Action bestAction = null;
+                        Map<Action, Double> actionUtilities = new HashMap<>();
                         for (Action action : Action.values()) {
                             double utility = 0;
                             for (ActionOutcome outcome : action.getOutcomes(grid.getP())) {
@@ -59,11 +61,19 @@ public class PolicyIterationBoltzmann {
                                     utility += outcome.getProbability() * utilities[i][j];
                                 }
                             }
-                            if (utility > maxUtility) {
-                                maxUtility = utility;
-                                bestAction = action;
+                            actionUtilities.put(action, utility);
+                        }
+                        
+                        
+                        double maxUtility = Double.NEGATIVE_INFINITY;
+                        Action bestAction = null;
+                        for (Map.Entry<Action, Double> entry : actionUtilities.entrySet()) {
+                            if (entry.getValue() > maxUtility) {
+                                maxUtility = entry.getValue();
+                                bestAction = entry.getKey();
                             }
                         }
+                        
                         newUtilities[i][j] = cell.getStepCost() + 0.5 * maxUtility;
                         policy[i][j] = bestAction;
                     }
@@ -78,15 +88,15 @@ public class PolicyIterationBoltzmann {
             newUtilities = temp;
 
             // Decrease the temperature
-            temperature = temperature * coolingRate;
+            temperature = temperature * coolingRate;           
         }
-        // System.out.println("PIB:");
-        // for (double[] utilitie : utilities) {
-        //     for (int j = 0; j < utilities[0].length; j++) {
-        //         System.out.print(String.format("%.5f", utilitie[j]) + " ");
-        //     }
-        //     System.out.println();
-        // }
+        System.out.println("PIB:");
+        for (double[] row : utilities) {
+            for (double value : row) {
+                System.out.print(String.format("%.5f", value) + " ");
+            }
+            System.out.println();
+        }
         return utilities;
     }
     
