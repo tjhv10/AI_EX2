@@ -75,13 +75,7 @@ public class ValueIteration {
             utilities = newUtilities;
             newUtilities = temp;
         }
-        System.out.println("VI:");
-        for (double[] utilitie : utilities) {
-            for (int j = 0; j < utilities[0].length; j++) {
-                System.out.print(String.format("%.5f", utilitie[j]) + " ");
-            }
-            System.out.println();
-        }
+        printUtility();
         return utilities;
     }
 
@@ -89,7 +83,17 @@ public class ValueIteration {
     public double[][] getUtilities() {
         return utilities;
     }
-
+    public void printUtility()
+    {
+        System.out.println("VI:");
+        for (double[] utilitie : utilities) {
+            for (int j = 0; j < utilities[0].length; j++) {
+                System.out.print(String.format("%.5f", utilitie[j]) + " ");
+            }
+            System.out.println();
+        }
+    }
+    
     // Getter for the derived policy
     public Action[][] getPolicy() {
         return policy;

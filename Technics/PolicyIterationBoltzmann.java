@@ -7,7 +7,7 @@ import Stracture.CellType;
 import Stracture.Grid;
 import java.util.HashMap;
 import java.util.Map;
-
+//todo this doesnt use t
 public class PolicyIterationBoltzmann {
     private final Grid grid; // The grid representing the environment
     private double[][] utilities; // Utilities for each state
